@@ -1,0 +1,10 @@
+public/.htaccess
+public/application/config/auth.php
+public/application/config/config.php
+public/application/config/database.php
+public/application/config/encryption.php
+private/.htaccess
+private/application/config/auth.php
+private/application/config/config.php
+private/application/config/database.php
+private/application/config/encryption.php
