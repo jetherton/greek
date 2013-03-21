@@ -353,13 +353,35 @@ div#content.clearingfix {
 
 div.page_text ul{
 	padding-left:20px;
+	
 }
 
-div.page_text li img{
-	float:right;
+div.page_2 li img{
+	display:block;
 	box-shadow:5px 5px 10px #666;
 	margin:5px;
+	margin-bottom:10px;
 	}
 div.page_text li{
 	clear:both;
 }
+
+div.page_2 li{
+	font-size:17px;
+	margin-bottom:30px;
+	border-bottom: solid 1px #666;
+}
+
+div.page_2 h1{font-size: 30px; padding-top:20px;}
+div.page_2 h2{font-size: 25px; padding-top:30px; padding-bottom:15px;clear:both;}
+
+h1.page_2_title{
+	display:none;
+}
+
+
+
+
+
+
+
