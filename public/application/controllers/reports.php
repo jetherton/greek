@@ -321,7 +321,51 @@ class Reports_Controller extends Main_Controller {
 			// Test to see if things passed the rule checks
 			if (reports::validate($post))
 			{
-
+				$publickey = URL::base().'pubkey/pubkey.pem';
+				$url = URL::base().'index.php/reports/submit?task=report';
+				$fields_string = '';
+				foreach($post as $key=>$value){				
+					if(!is_array($value)){
+						$s = '';
+						openssl_public_encrypt($value, $s, $publickey);
+						$post[$key] = $s;
+						$fields_string .= $key.'='.$post[$key].'&';
+					}
+					else{
+						if($key != 'submit'){
+							$string = $key.'=';
+							foreach($post[$key] as $val){
+								if(is_array($val)){
+									foreach($val as $v){
+										$string .= $v.',';
+									}
+								}
+								else{
+									$string .= $val.',';
+								}
+							}
+							$fields_string .= urlencode($string).'&';
+						}
+					}
+				}
+				
+				rtrim($fields_string, '&');
+				
+				//open connection
+				$ch = curl_init();
+				
+				//set the url, number of vars, data
+				curl_setopt($ch, CURLOPT_URL, $url);
+				curl_setopt($ch, CURLOPT_POST, count($post));
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+				
+				//execute post
+				$result = curl_exec($ch);
+				curl_close($ch);
+				print_r($post);
+				//exit;
+				
+				/*
 				// STEP 1: SAVE LOCATION
 				$location = new Location_Model();
 				reports::save_location($post, $location);
@@ -348,6 +392,7 @@ class Reports_Controller extends Main_Controller {
 				// Run events
 				Event::run('ushahidi_action.report_submit', $post);
 				Event::run('ushahidi_action.report_add', $incident);
+				*/
 
 				url::redirect('reports/thanks');
 			}

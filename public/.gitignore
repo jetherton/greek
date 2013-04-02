@@ -5,6 +5,7 @@
 application/logs/*
 application/cache/*
 media/uploads/*
+pubkey/pubkey.pem
 application/config/auth.php
 application/config/config.php
 application/config/database.php
