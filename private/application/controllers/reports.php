@@ -312,10 +312,12 @@ class Reports_Controller extends Main_Controller {
 		// Check, has the form been submitted, if so, setup validation
 		if ($_GET['task'] == 'report')
 		{
-			
 			$incident = ORM::factory('incident');
 			$incident->incident_title = $_POST['incident_title'];
 			$incident->incident_description = $_POST['incident_description'];
+			$incident->person_first = $_POST['person_first'];
+			$incident->person_last = $_POST['person_last'];
+			$incident->person_email = $_POST['person_email'];
 			//$incident->incident_date = urldecode($_GET['incident_date']);
 			
 			$incident->save();

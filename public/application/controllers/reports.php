@@ -321,17 +321,48 @@ class Reports_Controller extends Main_Controller {
 			// Test to see if things passed the rule checks
 			if (reports::validate($post))
 			{
-				$publickey = URL::base().'pubkey/pubkey.pem';
+				$strings = array(
+						'incident_title' => 'incident_title',
+						'incident_description' => 'incident_description',
+						'location_name' => 'location_name',
+						'person_first' => 'person_first',
+						'person_last' => 'person_last',
+						'person_email' => 'person_email',
+				);
+				//$publickey = openssl_get_publickey('file://'.URL::base().'pubkey/public.pem');
+				$pkey = openssl_pkey_get_public('file://public.pem');
+				$fp = fopen(URL::base().'pubkey/public.pem', 'r');
+				$pub_key = fread($fp, 8192);
+				fclose($fp);
+				$pub_key = openssl_get_publickey($pub_key);
+				//print_r($pub_key);
+				
+				//openssl_public_encrypt('string string', $crypted, $pub_key);
+				//print_r($crypted);
+				
+				print_r($pkey);
+				$s = '';
+				$s = openssl_public_encrypt('here there in the darkness', $s, $pub_key);
+				print_r($s);
+				exit;
+				
 				$url = URL::base().'index.php/reports/submit?task=report';
 				$fields_string = '';
 				foreach($post as $key=>$value){				
 					if(!is_array($value)){
-						$s = '';
-						openssl_public_encrypt($value, $s, $publickey);
-						$post[$key] = $s;
-						$fields_string .= $key.'='.$post[$key].'&';
+						if(array_key_exists($key, $strings)){
+							$s = '';
+							echo 'here';
+							openssl_public_encrypt($value, $s, $pub_key);
+							$fields_string .= $key.'='.urlencode($s).'&';
+
+						}
+						else {
+							$fields_string .= $key.'='.urlencode($value).'&';
+						}
 					}
 					else{
+						exit;
 						if($key != 'submit'){
 							$string = $key.'=';
 							foreach($post[$key] as $val){
@@ -350,7 +381,6 @@ class Reports_Controller extends Main_Controller {
 				}
 				
 				rtrim($fields_string, '&');
-				
 				//open connection
 				$ch = curl_init();
 				
@@ -362,7 +392,7 @@ class Reports_Controller extends Main_Controller {
 				//execute post
 				$result = curl_exec($ch);
 				curl_close($ch);
-				print_r($post);
+				//print_r($post);
 				//exit;
 				
 				/*
