@@ -312,15 +312,51 @@ class Reports_Controller extends Main_Controller {
 		// Check, has the form been submitted, if so, setup validation
 		if ($_GET['task'] == 'report')
 		{
+			$post = array();
+			foreach($_POST as $key=>$value){
+				$post[$key] = urldecode($value);
+			}
+			/*
 			$incident = ORM::factory('incident');
-			$incident->incident_title = $_POST['incident_title'];
-			$incident->incident_description = $_POST['incident_description'];
-			$incident->person_first = $_POST['person_first'];
-			$incident->person_last = $_POST['person_last'];
-			$incident->person_email = $_POST['person_email'];
+			foreach($_POST as $key=>$value){
+				$incident->$key = urldecode($value);
+			}
+			//$incident->incident_title = urldecode($_POST['incident_title']);
+			//$incident->incident_description = urldecode($_POST['incident_description']);
+			//$incident->person_first = urldecode($_POST['person_first']);
+			//$incident->person_last = urldecode($_POST['person_last']);
+			//$incident->person_email = urldecode($_POST['person_email']);
 			//$incident->incident_date = urldecode($_GET['incident_date']);
 			
 			$incident->save();
+			*/
+			 // STEP 1: SAVE LOCATION
+			$location = new Location_Model();
+			reports::save_location($post, $location);
+			
+			// STEP 2: SAVE INCIDENT
+			$incident = new Incident_Model();
+			reports::save_report($post, $incident, $location->id);
+			
+			// STEP 2b: SAVE INCIDENT GEOMETRIES
+			reports::save_report_geometry($post, $incident);
+			
+			// STEP 3: SAVE CATEGORIES
+			reports::save_category($post, $incident);
+			
+			// STEP 4: SAVE MEDIA
+			reports::save_media($post, $incident);
+			
+			// STEP 5: SAVE CUSTOM FORM FIELDS
+			reports::save_custom_fields($post, $incident);
+			
+			// STEP 6: SAVE PERSONAL INFORMATION
+			reports::save_personal_info($post, $incident);
+			
+			// Run events
+			Event::run('ushahidi_action.report_submit', $post);
+			Event::run('ushahidi_action.report_add', $incident);
+			
 		}
 
 		// Retrieve Country Cities

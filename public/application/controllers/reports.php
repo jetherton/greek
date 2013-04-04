@@ -324,7 +324,6 @@ class Reports_Controller extends Main_Controller {
 				$strings = array(
 						'incident_title' => 'incident_title',
 						'incident_description' => 'incident_description',
-						'location_name' => 'location_name',
 						'person_first' => 'person_first',
 						'person_last' => 'person_last',
 						'person_email' => 'person_email',
@@ -335,16 +334,20 @@ class Reports_Controller extends Main_Controller {
 				$pub_key = fread($fp, 8192);
 				fclose($fp);
 				$pub_key = openssl_get_publickey($pub_key);
+				$fp = fopen('http://127.0.0.1:8080/greek/private/privkey/privkey.pem', 'r');
+				$priv_key = fread($fp, 8192);
+				$priv_key = openssl_get_privatekey($priv_key);
+				fclose($fp);
 				//print_r($pub_key);
 				
 				//openssl_public_encrypt('string string', $crypted, $pub_key);
 				//print_r($crypted);
 				
-				print_r($pkey);
-				$s = '';
-				$s = openssl_public_encrypt('here there in the darkness', $s, $pub_key);
-				print_r($s);
-				exit;
+				//print_r($pkey);
+				//$s = '';
+				///$s = openssl_public_encrypt('here there in the darkness', $s, $pub_key);
+				//print_r($s);
+				//exit;
 				
 				$url = URL::base().'index.php/reports/submit?task=report';
 				$fields_string = '';
@@ -352,17 +355,17 @@ class Reports_Controller extends Main_Controller {
 					if(!is_array($value)){
 						if(array_key_exists($key, $strings)){
 							$s = '';
-							echo 'here';
 							openssl_public_encrypt($value, $s, $pub_key);
 							$fields_string .= $key.'='.urlencode($s).'&';
-
+							openssl_private_decrypt($s, $s, $priv_key);
+							$post[$key] = $s;
 						}
 						else {
-							$fields_string .= $key.'='.urlencode($value).'&';
+							$fields_string .= urlencode($key).'='.urlencode($value).'&';
 						}
 					}
+					/*
 					else{
-						exit;
 						if($key != 'submit'){
 							$string = $key.'=';
 							foreach($post[$key] as $val){
@@ -378,9 +381,12 @@ class Reports_Controller extends Main_Controller {
 							$fields_string .= urlencode($string).'&';
 						}
 					}
+					
 				}
+				//print_r($post);
 				
 				rtrim($fields_string, '&');
+			
 				//open connection
 				$ch = curl_init();
 				
@@ -394,8 +400,9 @@ class Reports_Controller extends Main_Controller {
 				curl_close($ch);
 				//print_r($post);
 				//exit;
+				*/
+				}
 				
-				/*
 				// STEP 1: SAVE LOCATION
 				$location = new Location_Model();
 				reports::save_location($post, $location);
@@ -422,7 +429,7 @@ class Reports_Controller extends Main_Controller {
 				// Run events
 				Event::run('ushahidi_action.report_submit', $post);
 				Event::run('ushahidi_action.report_add', $incident);
-				*/
+				
 
 				url::redirect('reports/thanks');
 			}
