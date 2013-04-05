@@ -310,58 +310,53 @@ class Reports_Controller extends Main_Controller {
 
 
 		// Check, has the form been submitted, if so, setup validation
-		if ($_POST)
+		if ($_GET['task'] == 'report')
 		{
-			// Instantiate Validation, use $post, so we don't overwrite $_POST fields with our own things
-			$post = array_merge($_POST, $_FILES);
+			$post = array();
+			foreach($_POST as $key=>$value){
+				$post[$key] = urldecode($value);
+			}
+			/*
+			$incident = ORM::factory('incident');
+			foreach($_POST as $key=>$value){
+				$incident->$key = urldecode($value);
+			}
+			//$incident->incident_title = urldecode($_POST['incident_title']);
+			//$incident->incident_description = urldecode($_POST['incident_description']);
+			//$incident->person_first = urldecode($_POST['person_first']);
+			//$incident->person_last = urldecode($_POST['person_last']);
+			//$incident->person_email = urldecode($_POST['person_email']);
+			//$incident->incident_date = urldecode($_GET['incident_date']);
 			
-			// Adding event for endtime plugin to hook into
-			Event::run('ushahidi_action.report_posted_frontend', $post);
-
-			// Test to see if things passed the rule checks
-			if (reports::validate($post))
-			{
-
-				// STEP 1: SAVE LOCATION
-				$location = new Location_Model();
-				reports::save_location($post, $location);
-
-				// STEP 2: SAVE INCIDENT
-				$incident = new Incident_Model();
-				reports::save_report($post, $incident, $location->id);
-
-				// STEP 2b: SAVE INCIDENT GEOMETRIES
-				reports::save_report_geometry($post, $incident);
-
-				// STEP 3: SAVE CATEGORIES
-				reports::save_category($post, $incident);
-
-				// STEP 4: SAVE MEDIA
-				reports::save_media($post, $incident);
-
-				// STEP 5: SAVE CUSTOM FORM FIELDS
-				reports::save_custom_fields($post, $incident);
-
-				// STEP 6: SAVE PERSONAL INFORMATION
-				reports::save_personal_info($post, $incident);
-
-				// Run events
-				Event::run('ushahidi_action.report_submit', $post);
-				Event::run('ushahidi_action.report_add', $incident);
-
-				url::redirect('reports/thanks');
-			}
-
-			// No! We have validation errors, we need to show the form again, with the errors
-			else
-			{
-				// Repopulate the form fields
-				$form = arr::overwrite($form, $post->as_array());
-
-				// Populate the error fields, if any
-				$errors = arr::merge($errors, $post->errors('report'));
-				$form_error = TRUE;
-			}
+			$incident->save();
+			*/
+			 // STEP 1: SAVE LOCATION
+			$location = new Location_Model();
+			reports::save_location($post, $location);
+			
+			// STEP 2: SAVE INCIDENT
+			$incident = new Incident_Model();
+			reports::save_report($post, $incident, $location->id);
+			
+			// STEP 2b: SAVE INCIDENT GEOMETRIES
+			reports::save_report_geometry($post, $incident);
+			
+			// STEP 3: SAVE CATEGORIES
+			reports::save_category($post, $incident);
+			
+			// STEP 4: SAVE MEDIA
+			reports::save_media($post, $incident);
+			
+			// STEP 5: SAVE CUSTOM FORM FIELDS
+			reports::save_custom_fields($post, $incident);
+			
+			// STEP 6: SAVE PERSONAL INFORMATION
+			reports::save_personal_info($post, $incident);
+			
+			// Run events
+			Event::run('ushahidi_action.report_submit', $post);
+			Event::run('ushahidi_action.report_add', $incident);
+			
 		}
 
 		// Retrieve Country Cities
