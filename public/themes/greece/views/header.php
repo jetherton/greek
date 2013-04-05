@@ -63,7 +63,7 @@
 		
 			<div id="yaleLogo">
 			<a href="http://yale.edu">
-				<span>A project of</span> <img src="<?php echo url::base();?>themes/greece/images/yale.jpeg"/>
+				<span><?php echo Kohana::lang('crv_greece.a_project_of');?></span> <img src="<?php echo url::base();?>themes/greece/images/yale.jpeg"/>
 			</a>
 			</div>
 
@@ -71,7 +71,7 @@
 			<?php if ($banner == NULL): ?>
 			<div id="logo">
 				<h1><a href="<?php echo url::site();?>"><?php echo $site_name; ?></a></h1>
-				<span><?php echo $site_tagline; ?></span>
+				<span><?php echo Kohana::lang('crv_greece.tag_line');?></span>
 			</div>
 			<?php else: ?>
 			<a href="<?php echo url::site();?>"><img src="<?php echo $banner; ?>" alt="<?php echo $site_name; ?>" /></a>
