@@ -97,6 +97,16 @@
 								<div id="form_loader" style="float:left;"></div>
 							</div>
 							<div class="row">
+							</br>
+								<?php 
+									echo "Paste private key to decrypt sensitive data.";
+									print form::textarea('decryptkey', '', 'style = "height:60px"');
+								?>
+							</div>
+							<div class="row">
+								</br><div id ="delete_button">Decrypt</div>
+							</div>
+							<div class="row">
 								<h4><?php echo Kohana::lang('ui_main.title');?> <span class="required">*</span></h4>
 								<?php print form::input('incident_title', $form['incident_title'], ' class="text title"'); ?>
 							</div>
@@ -232,6 +242,7 @@
 									</div>
 								</div>
 							</div>
+							
 							<div class="incident-find-location">
 								<div id="panel" class="olControlEditingToolbar"></div>
 								<div class="btns" style="float:left;">
@@ -511,3 +522,48 @@
 				}
 				?>
 			</div>
+			
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/Barrett.js"> </script> 
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/BigInt.js"> </script> 
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/RSA.js"> </script> 
+			
+<script type="text/javascript">
+ function decrypt() {
+   	var privkey = $('#decryptkey').val();
+   	var publickey = null;
+	var title = $('#incident_title').val();
+	var descri = $('#incident_description').val();
+	var first = $('#person_first').val();
+	var last = $('#person_last').val();
+	var email = $('#person_email').val();
+
+	$.post("<?php echo URL::base(); ?>reports/getPublickey", {}).done(
+			function(data){
+				publickey = data;
+			});
+	console.log(publickey);
+	
+	var key = new RSAKeyPair("10001", publickey,privkey);
+	
+	$('#incident_title').val(decryptedString(key, title));
+	$('#incident_description').val(decryptedString(key, descri));
+	if(first != ''){
+		$('#person_first').val(decryptedString(key, first));
+	}
+	if(last != ''){
+		$('#person_last').val(decryptedString(key, last));
+	}
+	if(email != ''){
+		$('#person_email').val(decryptedString(key, email));
+	}
+	
+}
+
+ $(document).ready(function(){
+		$('#delete_button').click(function(){
+			decrypt();
+	   });
+});
+
+ 
+</script>

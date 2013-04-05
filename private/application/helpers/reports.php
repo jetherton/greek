@@ -470,7 +470,7 @@ class reports_Core {
 		// c. Photos
 		if ( ! empty($post->incident_photo))
 		{
-			$filenames = upload::save('incident_photo');
+			$filenames = upload::save($post->incident_photo);
 			$i = 1;
 
 			foreach ($filenames as $filename)
