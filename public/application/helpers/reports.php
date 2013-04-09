@@ -227,6 +227,7 @@ class reports_Core {
 		{
 			// New
 			$incident->incident_dateadd = date("Y-m-d H:i:s",time());
+			$incident->ip_address = $_SERVER['REMOTE_ADDR'];
 		}
 		
 		$incident->location_id = $location_id;

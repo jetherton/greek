@@ -135,7 +135,7 @@ div.submit-incident a, .btn_submit {
 }
 
 /* primary nav */
-div#mainmenu { background:none; border:none; height:27px; }
+div#mainmenu { background:none; border:none;  }
 div#mainmenu ul {
   
 }
