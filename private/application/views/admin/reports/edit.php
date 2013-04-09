@@ -537,10 +537,12 @@
 	var last = $('#person_last').val();
 	var email = $('#person_email').val();
 
-	publickey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1l7UUEhprpM1Dgxjeon3XvB7M\n"+
-		"lfVMq29GcH83kD8jtQME/OkUaAs/mPddjwavRqeD4FwEJdV5oOwPxmgUtB5fIyA2\n"+
-		"I7JEmdT5cHqVjAJQgbC9eRQpx6FGdzTwQhxwEYjJojg0pUCJNNtRbWmAdkC6ITSq\n"+
-		"A4AazJz3Yv3IjmGdqQIDAQAB";
+	publickey = "-----BEGIN PUBLIC KEY-----\
+	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1l7UUEhprpM1Dgxjeon3XvB7M\
+	lfVMq29GcH83kD8jtQME/OkUaAs/mPddjwavRqeD4FwEJdV5oOwPxmgUtB5fIyA2\
+	I7JEmdT5cHqVjAJQgbC9eRQpx6FGdzTwQhxwEYjJojg0pUCJNNtRbWmAdkC6ITSq\
+	A4AazJz3Yv3IjmGdqQIDAQAB\
+	-----END PUBLIC KEY-----";
 	
 	console.log(publickey);
 	
