@@ -310,26 +310,50 @@ class Reports_Controller extends Main_Controller {
 
 
 		// Check, has the form been submitted, if so, setup validation
-		if ($_GET['task'] == 'report')
+		if (isset($_GET['task']) && $_GET['task'] == 'report')
 		{
-			$post = array();
-			foreach($_POST as $key=>$value){
-				$post[$key] = urldecode($value);
-			}
-			/*
-			$incident = ORM::factory('incident');
-			foreach($_POST as $key=>$value){
-				$incident->$key = urldecode($value);
-			}
-			//$incident->incident_title = urldecode($_POST['incident_title']);
-			//$incident->incident_description = urldecode($_POST['incident_description']);
-			//$incident->person_first = urldecode($_POST['person_first']);
-			//$incident->person_last = urldecode($_POST['person_last']);
-			//$incident->person_email = urldecode($_POST['person_email']);
-			//$incident->incident_date = urldecode($_GET['incident_date']);
+			//open the private key
+			//$fp = fopen('http://127.0.0.1:8080/greek/private/privkey/private.pem', 'r');
+			//$priv_key = fread($fp, 8192);
+			//$priv_key = openssl_get_privatekey($priv_key);
+			//fclose($fp);
 			
-			$incident->save();
-			*/
+			$arrayFields = urldecode($_POST['arrayFields']);
+			$arrayFields = unserialize($arrayFields);
+			$strings = array(
+					'incident_title' => 'incident_title',
+					'incident_description' => 'incident_description',
+					'person_first' => 'person_first',
+					'person_last' => 'person_last',
+					'person_email' => 'person_email',
+			);
+			$data = array();
+			
+			foreach($_POST as $key=>$value){
+				if(array_key_exists($key, $arrayFields)){
+					if(array_key_exists($key, $strings)){
+						$subArray = unserialize(urldecode($value));
+						$s = '';
+						foreach($subArray as $sub){
+							$s .= $sub;
+						}
+						$data[$key] = $s;
+					}
+					else{
+						$data[$key] = unserialize(urldecode($value));
+					}
+				}
+				else{
+					$data[$key] = urldecode($value);
+				}
+			}
+			$post = new stdClass();
+			
+			foreach($data as $key => $value){
+				$post->$key = $value;
+			}
+			
+			
 			 // STEP 1: SAVE LOCATION
 			$location = new Location_Model();
 			reports::save_location($post, $location);
@@ -412,6 +436,16 @@ class Reports_Controller extends Main_Controller {
 		// Rebuild Header Block
 		$this->template->header->header_block = $this->themes->header_block();
 		$this->template->footer->footer_block = $this->themes->footer_block();
+	}
+	
+	/**
+	 * Pull the public key string and return it to the server
+	 */
+	public function getPublickey(){
+		$fp = fopen('http://127.0.0.1:8080/greek/public/pubkey/public.pem', 'r');
+		$pub_key = fread($fp, 8192);
+		fclose($fp);
+		return $pub_key;
 	}
 
 	 /**

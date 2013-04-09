@@ -318,6 +318,7 @@ class Reports_Controller extends Admin_Controller {
 
 		$this->template->content = new View('admin/reports/edit');
 		$this->template->content->title = Kohana::lang('ui_admin.create_report');
+		$this->template->js = new View('admin/reports/edit_js');
 
 		// Setup and initialize form field names
 		$form = array(
@@ -825,7 +826,7 @@ class Reports_Controller extends Admin_Controller {
 		$this->template->content->date_picker_js = $this->_date_picker_js();
 		$this->template->content->color_picker_js = $this->_color_picker_js();
 		$this->template->content->new_category_toggle_js = $this->_new_category_toggle_js();
-
+		
 		// Pack Javascript
 		$myPacker = new javascriptpacker($this->template->js , 'Normal', false, false);
 		$this->template->js = $myPacker->pack();

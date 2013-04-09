@@ -679,6 +679,19 @@ table td{
 	padding:1px 1px 1px;
 	width:900px;
 }
+#delete_button{
+	-webkit-box-align: center;
+   padding: 1px 6px;
+   text-align: center;
+   cursor: default;
+   coor: buttontext;
+   border: 2px outset buttonface;
+   background-color: buttonface;
+   box-sizing: border-box;
+   -webkit-appearance: push-button;
+   white-space: pre;
+   width: 80px;
+}
 .table td{
 	padding:12px 0 10px;
 	border-bottom:2px solid #ddd;

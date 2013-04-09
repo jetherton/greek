@@ -321,6 +321,7 @@ class Reports_Controller extends Main_Controller {
 			// Test to see if things passed the rule checks
 			if (reports::validate($post))
 			{
+				//these are the strings to be encrypted
 				$strings = array(
 						'incident_title' => 'incident_title',
 						'incident_description' => 'incident_description',
@@ -328,64 +329,61 @@ class Reports_Controller extends Main_Controller {
 						'person_last' => 'person_last',
 						'person_email' => 'person_email',
 				);
-				//$publickey = openssl_get_publickey('file://'.URL::base().'pubkey/public.pem');
-				$pkey = openssl_pkey_get_public('file://public.pem');
+				
+				//get the public key
 				$fp = fopen(URL::base().'pubkey/public.pem', 'r');
 				$pub_key = fread($fp, 8192);
 				fclose($fp);
 				$pub_key = openssl_get_publickey($pub_key);
-				$fp = fopen('http://127.0.0.1:8080/greek/private/privkey/privkey.pem', 'r');
-				$priv_key = fread($fp, 8192);
-				$priv_key = openssl_get_privatekey($priv_key);
-				fclose($fp);
-				//print_r($pub_key);
 				
-				//openssl_public_encrypt('string string', $crypted, $pub_key);
-				//print_r($crypted);
-				
-				//print_r($pkey);
-				//$s = '';
-				///$s = openssl_public_encrypt('here there in the darkness', $s, $pub_key);
-				//print_r($s);
-				//exit;
-				
-				$url = URL::base().'index.php/reports/submit?task=report';
+				//go through the $post and encrypt the strings and add all data to $fields_string for cURL POST
+				$url = 'http://127.0.0.1:8080/greek/private/index.php/reports/submit?task=report';
 				$fields_string = '';
+				$maxlength = 117;
+				$arrayFields = array();
 				foreach($post as $key=>$value){				
 					if(!is_array($value)){
 						if(array_key_exists($key, $strings)){
-							$s = '';
-							openssl_public_encrypt($value, $s, $pub_key);
-							$fields_string .= $key.'='.urlencode($s).'&';
-							openssl_private_decrypt($s, $s, $priv_key);
-							$post[$key] = $s;
-						}
-						else {
-							$fields_string .= urlencode($key).'='.urlencode($value).'&';
-						}
-					}
-					/*
-					else{
-						if($key != 'submit'){
-							$string = $key.'=';
-							foreach($post[$key] as $val){
-								if(is_array($val)){
-									foreach($val as $v){
-										$string .= $v.',';
-									}
+							if(strlen($value) >= $maxlength){
+								$s = array();
+								$v = $value;
+								while(strlen($v) >= $maxlength){
+									$first = substr($v, 0, $maxlength);
+									openssl_public_encrypt($first, $sub, $pub_key);
+									$s[] = base64_encode($sub);
+									$v = substr($v, $maxlength);
+								}
+								$str = '';
+								openssl_public_encrypt($value, $str, $pub_key);
+								$s[] = base64_encode($str);
+								$fields_string .= $key.'='.urlencode(serialize($s));
+								$arrayFields[$key] = $key;
+							}
+							else{
+								if($value != ''){
+									$s = '';
+									openssl_public_encrypt($value, $s, $pub_key);
+									$fields_string .= $key.'='.urlencode(base64_encode($s)).'&';
 								}
 								else{
-									$string .= $val.',';
+									$fields_string .= $key.'=&';
 								}
 							}
-							$fields_string .= urlencode($string).'&';
+						}
+						else {
+							$fields_string .= $key.'='.urlencode($value).'&';
 						}
 					}
 					
-				}
-				//print_r($post);
-				
-				rtrim($fields_string, '&');
+					else{
+						$s = serialize($value);
+						$arrayFields[$key] = $key;
+						$fields_string .= $key.'='.urlencode($s).'&';
+					}
+				}	
+				$arrayFields['arrayFields'] = 'arrayFields';
+				//Tell other server which ones are arrays and should be handled differently
+				$fields_string .= 'arrayFields'.'='.urlencode(serialize($arrayFields));
 			
 				//open connection
 				$ch = curl_init();
@@ -398,11 +396,10 @@ class Reports_Controller extends Main_Controller {
 				//execute post
 				$result = curl_exec($ch);
 				curl_close($ch);
-				//print_r($post);
-				//exit;
-				*/
-				}
 				
+				exit;
+	
+				/*
 				// STEP 1: SAVE LOCATION
 				$location = new Location_Model();
 				reports::save_location($post, $location);
@@ -429,10 +426,11 @@ class Reports_Controller extends Main_Controller {
 				// Run events
 				Event::run('ushahidi_action.report_submit', $post);
 				Event::run('ushahidi_action.report_add', $incident);
-				
+				*/
 
 				url::redirect('reports/thanks');
 			}
+			
 
 			// No! We have validation errors, we need to show the form again, with the errors
 			else
@@ -445,7 +443,8 @@ class Reports_Controller extends Main_Controller {
 				$form_error = TRUE;
 			}
 		}
-
+		
+		
 		// Retrieve Country Cities
 		$default_country = Kohana::config('settings.default_country');
 		$this->template->content->cities = $this->_get_cities($default_country);
