@@ -537,10 +537,11 @@
 	var last = $('#person_last').val();
 	var email = $('#person_email').val();
 
-	$.post("<?php echo URL::base(); ?>reports/getPublickey", {}).done(
-			function(data){
-				publickey = data;
-			});
+	publickey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1l7UUEhprpM1Dgxjeon3XvB7M\n"+
+		"lfVMq29GcH83kD8jtQME/OkUaAs/mPddjwavRqeD4FwEJdV5oOwPxmgUtB5fIyA2\n"+
+		"I7JEmdT5cHqVjAJQgbC9eRQpx6FGdzTwQhxwEYjJojg0pUCJNNtRbWmAdkC6ITSq\n"+
+		"A4AazJz3Yv3IjmGdqQIDAQAB";
+	
 	console.log(publickey);
 	
 	var key = new RSAKeyPair("10001", publickey,privkey);
