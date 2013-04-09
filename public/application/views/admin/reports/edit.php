@@ -422,6 +422,22 @@
 								print "<input type=\"hidden\" name=\"$this_startid\" value=\"$i\" id=\"$this_startid\">";
 								?>
 							</div>
+							<div id="id_of_submitter" class="row link-row">
+							<?php if($form['ip_address']!=''){?>
+								<h4><?php echo Kohana::lang("crv_greece.ip_address").": ".$form['ip_address'];?></h4>
+							<?php $ip_count = ORM::factory('incident')->where('ip_address', $form['ip_address'])->count_all();
+							?>
+							<h4><?php echo Kohana::lang("crv_greece.reports_from_this_ip").": ".$ip_count;?></h4>
+							<?php }?>
+							<?php if($form['user_id']!=''){
+								$user = ORM::factory('user',$form['user_id']);
+								$user_count = ORM::factory('incident')->where('user_id', $form['user_id'])->count_all();
+								?>
+								<h4><?php echo Kohana::lang("crv_greece.submitted_by").": ".$user->name;?></h4>
+								<h4><?php echo Kohana::lang("crv_greece.reports_from_this_user").": ".$user_count;?></h4>
+								
+							<?php }?>
+							</div>
 						</div>
 						<!-- f-col-bottom -->
 						<div class="f-col-bottom-container">

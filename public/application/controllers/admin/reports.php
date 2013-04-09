@@ -346,7 +346,9 @@ class Reports_Controller extends Admin_Controller {
 			'custom_field' => array(),
 			'incident_active' => '',
 			'incident_verified' => '',
-			'incident_zoom' => ''
+			'incident_zoom' => '',
+			'ip_address'=>'',
+			'user_id'=>''
 		);
 
 		// Copy the form as errors, so the errors will be stored with keys
@@ -755,7 +757,9 @@ class Reports_Controller extends Admin_Controller {
 						'custom_field' => customforms::get_custom_form_fields($id,$incident->form_id,true),
 						'incident_active' => $incident->incident_active,
 						'incident_verified' => $incident->incident_verified,
-						'incident_zoom' => $incident->incident_zoom
+						'incident_zoom' => $incident->incident_zoom,
+						'ip_address' => $incident->ip_address,
+						'user_id'=>$incident->user_id,
 					);
 
 					// Merge To Form Array For Display

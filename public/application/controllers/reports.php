@@ -545,8 +545,8 @@ class Reports_Controller extends Main_Controller {
 			$form_error = FALSE;
 
 			// Check, has the form been submitted, if so, setup validation
-
-			if ($_POST AND Kohana::config('settings.allow_comments') )
+			
+			if ($_POST AND Kohana::config('settings.allow_comments') AND isset($_SESSION['auth_user']) )
 			{
 				// Instantiate Validation, use $post, so we don't overwrite $_POST fields with our own things
 				$post = Validation::factory($_POST);
