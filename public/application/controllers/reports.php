@@ -338,6 +338,7 @@ class Reports_Controller extends Main_Controller {
 				
 				//go through the $post and encrypt the strings and add all data to $fields_string for cURL POST
 				$url = 'http://127.0.0.1:8080/greek/private/index.php/reports/submit?task=report';
+				$url = 'http://127.0.0.1/greek/private/index.php/reports/submit?task=report';
 				$fields_string = '';
 				$maxlength = 117;
 				$arrayFields = array();
