@@ -104,7 +104,7 @@
 								?>
 							</div>
 							<div class="row">
-								</br><div id ="delete_button">Decrypt</div>
+								</br><div id ="decrypt_button">Decrypt</div>
 							</div>
 							<div class="row">
 								<h4><?php echo Kohana::lang('ui_main.title');?> <span class="required">*</span></h4>
@@ -544,26 +544,31 @@
 	A4AazJz3Yv3IjmGdqQIDAQAB\
 	-----END PUBLIC KEY-----";
 	
-	console.log(publickey);
+	//console.log(publickey);
+	//console.log(decode64(title));
+	//console.log(decode64(descri));
+	//console.log(decode64(first));
+	//console.log(decode64(last));
+	//console.log(decode64(email));
 	
 	var key = new RSAKeyPair("10001", publickey,privkey);
 	
-	$('#incident_title').val(decryptedString(key, title));
-	$('#incident_description').val(decryptedString(key, descri));
+	$('#incident_title').val(decryptedString(key, decode64(title)));
+	$('#incident_description').val(decryptedString(key, decode64(descri)));
 	if(first != ''){
-		$('#person_first').val(decryptedString(key, first));
+		$('#person_first').val(decryptedString(key, decode64(first)));
 	}
 	if(last != ''){
-		$('#person_last').val(decryptedString(key, last));
+		$('#person_last').val(decryptedString(key, decode64(last)));
 	}
 	if(email != ''){
-		$('#person_email').val(decryptedString(key, email));
+		$('#person_email').val(decryptedString(key, decode64(email)));
 	}
 	
 }
 
  $(document).ready(function(){
-		$('#delete_button').click(function(){
+		$('#decrypt_button').click(function(){
 			decrypt();
 	   });
 });
