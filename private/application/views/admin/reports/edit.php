@@ -537,34 +537,28 @@
 	var last = $('#person_last').val();
 	var email = $('#person_email').val();
 
-	publickey = "-----BEGIN PUBLIC KEY-----\
-	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1l7UUEhprpM1Dgxjeon3XvB7M\
-	lfVMq29GcH83kD8jtQME/OkUaAs/mPddjwavRqeD4FwEJdV5oOwPxmgUtB5fIyA2\
-	I7JEmdT5cHqVjAJQgbC9eRQpx6FGdzTwQhxwEYjJojg0pUCJNNtRbWmAdkC6ITSq\
-	A4AazJz3Yv3IjmGdqQIDAQAB\
-	-----END PUBLIC KEY-----";
+	publickey = '-----BEGIN PUBLIC KEY-----	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1l7UUEhprpM1Dgxjeon3XvB7M	lfVMq29GcH83kD8jtQME/OkUaAs/mPddjwavRqeD4FwEJdV5oOwPxmgUtB5fIyA2	I7JEmdT5cHqVjAJQgbC9eRQpx6FGdzTwQhxwEYjJojg0pUCJNNtRbWmAdkC6ITSq	A4AazJz3Yv3IjmGdqQIDAQAB	-----END PUBLIC KEY-----';
 	
-	//console.log(publickey);
-	//console.log(decode64(title));
-	//console.log(decode64(descri));
-	//console.log(decode64(first));
-	//console.log(decode64(last));
-	//console.log(decode64(email));
 	
-	var key = new RSAKeyPair("10001", publickey,privkey);
 	
-	$('#incident_title').val(decryptedString(key, decode64(title)));
-	$('#incident_description').val(decryptedString(key, decode64(descri)));
+	var key = new RSAKeyPair(publickey,privkey, "10001");
+	console.log(key);
+	var enc = encryptedString(key, "hey there");
+	console.log(enc);
+	console.log(decryptedString(key, enc));
+	/*
+	$('#incident_title').val(decryptedString(key, title));
+	$('#incident_description').val(decryptedString(key, descri));
 	if(first != ''){
-		$('#person_first').val(decryptedString(key, decode64(first)));
+		$('#person_first').val(decryptedString(key, first));
 	}
 	if(last != ''){
-		$('#person_last').val(decryptedString(key, decode64(last)));
+		$('#person_last').val(decryptedString(key, last));
 	}
 	if(email != ''){
-		$('#person_email').val(decryptedString(key, decode64(email)));
+		$('#person_email').val(decryptedString(key, email));
 	}
-	
+	*/
 }
 
  $(document).ready(function(){

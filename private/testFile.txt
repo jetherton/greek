@@ -1,0 +1,33 @@
+form_auth_token=ca80dcc78bc167e81f89c476c7b919576c936bdf5ef756e5c06742918cdf18e6
+latitude=-1.2866135984048375
+longitude=36.81063651526015
+country_name=Kenya
+incident_zoom=13
+form_id=
+incident_title=nl/qnTh0nIHqS4FODK/eM5P5Ob9kFqla4HgPecTIf0Bj/Z/4gAlcgy9J/yP0FClChKc0eGmVO68EAnrtbsC2kzxClxV7ccgqza8/3Rb/A4wdRF lhX9Tmzrw/deL9glNPq9bs4I6hbQ/x8itfkJUzg6Krz8V0sUicW2ffpqq1qQ=
+incident_description=IWJyq2chGidxwoDcCv7gkDS2NvGmQz8j62BiGZbySNVuZje83fdG10ZSirHv FgqMp icK2ZspHq DFhZsWm8IkT6oaF4qJTh3QNYxDMO99RueQiFp25brknMOUcTbEPzCcFEydRJlnn7gMN9zS nDdABWcuJdp4Y65k7ckIUr0=
+incident_date=04/05/2013
+incident_hour=01
+incident_minute=18
+incident_ampm=pm
+incident_categorya:1:{i:0;s:1:"2";}person_first=YhXupSofciuToEWhgZSEVq5IPSX 3bXb6e9yn afCPrjQt2yEIEzMCGR0/U jD6ys58YUiyXp3w55Jlq/wXzhRifqM9YNgVMZXwOKlo8ZLhrYajgPzpy6PGbIvsNgJkVMRTg0QA/LbPjUd1Ib/JQKmhcD 2e54X7aHJ7m9hJM1g=
+person_last=cMns4wD67AwakUoUDkxDrdsHtJ2hGYkkDb4qBja3cgTTHaSnMjI22woIyUJE9 BuohKVwB7USFzgv0d2MZ4o1RjLqNcotKRpMJREjmsWDK9bWYm/Ag28rsHUbq6Ab1uYZVy5OhWmKlvbkPI1nXts0Z0nNB7KntklZqMRJTQsWJI=
+person_email=czqG394a2k1DuNXdsfDjAsFYeMOKkN6ZJhgG1YlwxwTjrstCiCvFDQloKfpGGHR5NudEGcDTmdBgpMJeHbdkCJ9BIkiJOaDGOUFEupKE5kWu8doGYwFdRWgRFglnRLTVv1QkmAILZHrahGzmDR5m5dy LL92fwGT0r1QXUuBmf8=
+geometry_label=
+geometry_comment=
+geometry_color=
+geometry_strokewidth=0.5
+geometry_lat=
+geometry_lon=
+OpenLayers_Control_LayerSwitcher_19_baseLayers=OSM Mapnik
+Editable=Editable
+location_find=
+location_name=Mamlaka Rd, Nairobi, Kenya
+incident_newsa:1:{i:0;s:0:"";}news_id=1
+incident_videoa:1:{i:0;s:0:"";}video_id=1
+photo_id=1
+submit=Submit
+incident_photoa:5:{s:4:"name";a:1:{i:0;s:0:"";}s:4:"type";a:1:{i:0;s:0:"";}s:8:"tmp_name";a:1:{i:0;s:0:"";}s:5:"error";a:1:{i:0;s:1:"4";}s:4:"size";a:1:{i:0;s:1:"0";}}location_id=
+incident_active=
+incident_verified=
+arrayFieldsa:5:{s:17:"incident_category";s:17:"incident_category";s:13:"incident_news";s:13:"incident_news";s:14:"incident_video";s:14:"incident_video";s:14:"incident_photo";s:14:"incident_photo";s:11:"arrayFields";s:11:"arrayFields";}
