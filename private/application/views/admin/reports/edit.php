@@ -525,8 +525,13 @@
 			
 <script type="text/javascript" src="<?php echo URL::base(); ?>media/js/Barrett.js"> </script> 
 <script type="text/javascript" src="<?php echo URL::base(); ?>media/js/BigInt.js"> </script> 
-<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/RSA.js"> </script> 
-			
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/rsa.js"> </script> 
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/rsa2.js"> </script> 
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/jsbn.js"> </script> 
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/jsbn2.js"> </script> 
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/rng.js"> </script>
+<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/prng4.js"> </script>
+ 
 <script type="text/javascript">
  function decrypt() {
    	var privkey = $('#decryptkey').val();
@@ -537,16 +542,26 @@
 	var last = $('#person_last').val();
 	var email = $('#person_email').val();
 
-	publickey = '-----BEGIN PUBLIC KEY-----	MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC1l7UUEhprpM1Dgxjeon3XvB7M	lfVMq29GcH83kD8jtQME/OkUaAs/mPddjwavRqeD4FwEJdV5oOwPxmgUtB5fIyA2	I7JEmdT5cHqVjAJQgbC9eRQpx6FGdzTwQhxwEYjJojg0pUCJNNtRbWmAdkC6ITSq	A4AazJz3Yv3IjmGdqQIDAQAB	-----END PUBLIC KEY-----';
+	var pem = new RSAKey();
+	publickey = 'AAAAB3NzaC1yc2EAAAABJQAAAIBTireLFIpe4+2sm6/h7uTQ2IUAwkk+rxPc2cdR\
+		RXjM/8mg2aQbgKi8qSEzPKOzIIu8xTLyxQEskFKhJelmZSQA6p1l8+Jx7NqQWDt6\
+		IaBeILQZcoLD1yN6qFs0MpKxwprXm/7HVqKf2iVTgmX1egIz4VKqg4S7MWzjiDZK\
+		Srz2pQ==';
+	//publickey = RSA.getPublicKey(publickey);
+	pem.setPublic(publickey, '10001');
+	pem.setPrivate(publickey, '10001', privkey);
+	console.log(pem);
+	var enc = pem.encrypt('I am a fake string');
+	console.log(enc);
+	//console.log(pem.decrypt(pem.encrypt('I am a fake string')));
 	
-	
-	
-	var key = new RSAKeyPair(publickey,privkey, "10001");
+	/*
+	//var key = new RSAKeyPair(publickey,privkey, "10001");
 	console.log(key);
-	var enc = encryptedString(key, "hey there");
+	var enc = encryptedString(key, "I am a fake string");
 	console.log(enc);
 	console.log(decryptedString(key, enc));
-	/*
+	
 	$('#incident_title').val(decryptedString(key, title));
 	$('#incident_description').val(decryptedString(key, descri));
 	if(first != ''){
