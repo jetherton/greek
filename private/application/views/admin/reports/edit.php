@@ -523,8 +523,6 @@
 				?>
 			</div>
 			
-<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/Barrett.js"> </script> 
-<script type="text/javascript" src="<?php echo URL::base(); ?>media/js/BigInt.js"> </script> 
 <script type="text/javascript" src="<?php echo URL::base(); ?>media/js/rsa.js"> </script> 
 <script type="text/javascript" src="<?php echo URL::base(); ?>media/js/rsa2.js"> </script> 
 <script type="text/javascript" src="<?php echo URL::base(); ?>media/js/jsbn.js"> </script> 
@@ -543,13 +541,17 @@
 	var email = $('#person_email').val();
 
 	var pem = new RSAKey();
-	publickey = 'AAAAB3NzaC1yc2EAAAABJQAAAIBTireLFIpe4+2sm6/h7uTQ2IUAwkk+rxPc2cdR\
-		RXjM/8mg2aQbgKi8qSEzPKOzIIu8xTLyxQEskFKhJelmZSQA6p1l8+Jx7NqQWDt6\
-		IaBeILQZcoLD1yN6qFs0MpKxwprXm/7HVqKf2iVTgmX1egIz4VKqg4S7MWzjiDZK\
-		Srz2pQ==';
+	// \ are line breaks
+	publickey = '-----BEGIN PUBLIC KEY-----\
+		MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCenKlF4Gmlrtbei4jicYa13BBc\
+		CdcUEgJu4JaDGE5EqVUI9tuYmqRtsN6e28P2jM8LEdhuAWfi+mjYXyHZHibgJHsn\
+		5wruP8auvrcVQfBYImWCESGjwza15zE0GCt2paGGYWcEIzabN5jkl8v0yeZj5gVl\
+		1zeR3FpPugAU9zmKYQIDAQAB\
+		-----END PUBLIC KEY-----\
+	';
 	//publickey = RSA.getPublicKey(publickey);
-	pem.setPublic(publickey, '10001');
-	pem.setPrivate(publickey, '10001', privkey);
+	console.log('\''+privkey+'\'');
+	pem.setPrivate(publickey, '10001', '\''+privkey+'\'');
 	console.log(pem);
 	var enc = pem.encrypt('I am a fake string');
 	console.log(enc);

@@ -337,6 +337,7 @@ class Reports_Controller extends Main_Controller {
 				$pub_key = openssl_get_publickey($pub_key);
 				
 				//go through the $post and encrypt the strings and add all data to $fields_string for cURL POST
+				//strings bigger than the key have to be split and formed into arrays, arrays are stored in the value 'arrayFields' to know how to pull apart
 				$url = 'http://127.0.0.1:8080/greek/private/index.php/reports/submit?task=report';
 				//$url = 'http://127.0.0.1/greek/private/index.php/reports/submit?task=report';
 				$fields_string = '';
@@ -357,7 +358,7 @@ class Reports_Controller extends Main_Controller {
 								$str = '';
 								openssl_public_encrypt($value, $str, $pub_key);
 								$s[] = base64_encode($str);
-								$fields_string .= $key.'='.urlencode(serialize($s));
+								$fields_string .= $key.'='.urlencode(serialize($s)).'&';
 								$arrayFields[$key] = $key;
 							}
 							else{
@@ -385,7 +386,7 @@ class Reports_Controller extends Main_Controller {
 				$arrayFields['arrayFields'] = 'arrayFields';
 				//Tell other server which ones are arrays and should be handled differently
 				$fields_string .= 'arrayFields'.'='.urlencode(serialize($arrayFields));
-			
+
 				//open connection
 				$ch = curl_init();
 				
@@ -397,9 +398,6 @@ class Reports_Controller extends Main_Controller {
 				//execute post
 				$result = curl_exec($ch);
 				curl_close($ch);
-				
-				exit;
-	
 				/*
 				// STEP 1: SAVE LOCATION
 				$location = new Location_Model();

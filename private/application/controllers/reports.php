@@ -312,6 +312,7 @@ class Reports_Controller extends Main_Controller {
 		// Check, has the form been submitted, if so, setup validation
 		if (isset($_GET['task']) && $_GET['task'] == 'report')
 		{
+			
 			//open the private key
 			//$fp = fopen('http://127.0.0.1:8080/greek/private/privkey/private.pem', 'r');
 			//$priv_key = fread($fp, 8192);
@@ -347,12 +348,12 @@ class Reports_Controller extends Main_Controller {
 					$data[$key] = urldecode($value);
 				}
 			}
+			
 			$post = new stdClass();
 			
-			foreach($data as $key => $value){
+			foreach($data as $key=>$value){
 				$post->$key = $value;
 			}
-			
 			
 			 // STEP 1: SAVE LOCATION
 			$location = new Location_Model();
