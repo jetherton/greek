@@ -142,7 +142,7 @@ div#mainmenu ul {
 div#mainmenu ul li {
   margin:0 8px 0 0;
 }
-div#mainmenu ul li a { padding:3px 5px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+div#mainmenu ul li a { padding:3px 5px; -moz-border-radius: 3px; -webkit-border-radius: 3px; text-transform:none;}
 div#mainmenu ul li a:hover, div#mainmenu a.active {
   
 }
