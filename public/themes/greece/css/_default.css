@@ -19,7 +19,7 @@ Author Email: caleb@ushahidi.com
   div.search-form input.text:focus { border-color: #0d5eaf; }
   div.submit-incident a, .btn_submit,
   div.filters ul li a:hover, div.filters ul li a.active,
-  ul.category-filters li a:hover, ul.category-filters li a.active { background-color:#0d5eaf; }
+  ul.category-filters li a:hover, ul.category-filters li a.active { background-color:#0d5eaf; text-transform:none;}
   
   /* Lighter Primary Color - for hover effects */
   div#loggedin_user_action a, div#loggedin_user_action a:visited { color:#0d5eaf; }
@@ -99,7 +99,7 @@ div.search-form input.searchbtn {
   margin-left: 10px;
   line-height: 17px;
   padding: 2px 5px 3px;
-  text-transform: uppercase;
+  text-transform: none;
   text-shadow: 1px 1px 0 #424242;
 }
 
@@ -169,7 +169,7 @@ div#right { position:absolute; z-index:1000; }
   
   display:none; }
 
-#the-filters h3 { font-size:10px; color:#605f5d; text-transform:uppercase; margin-bottom:5px;; }
+#the-filters h3 { font-size:10px; color:#605f5d; text-transform:none; margin-bottom:5px;; }
   
   /* type and category toggle button */
   #filter-menu-toggle { position:absolute; top:20px; left:58px; width:120px; }
@@ -265,7 +265,7 @@ div#underfooter { background:transparent; }
 
 
 div.footermenu ul li a {
-  text-transform: uppercase;
+  text-transform: none;
   font-weight: bold;
   border-left: 1px solid #666;
 }
@@ -379,7 +379,7 @@ h1.page_2_title{
 	display:none;
 }
 
-
+a.filter-button {text-transform:none;}
 
 
 
