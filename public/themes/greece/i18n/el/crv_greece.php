@@ -8,5 +8,6 @@ $lang = array(
 		'reports_from_this_ip'=>'Reports from this IP',
 		'reports_from_this_user'=>'Reports from this user',
 		'you_must_log_in_to_leave_a_comment'=>'You must log in to leave a comment',
+		'About_CRV_Greece'=>'About CRV Greece',
 		);
 ?>
